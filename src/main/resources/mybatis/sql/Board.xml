@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.mybatisjsp.mbist.repository.BoardRepository">
+    <select id="getList" parameterType="org.mybatisjsp.mbist.domain.Board" resultType="org.mybatisjsp.mbist.domain.Board">
+        SELECT id, title, name, create_date, viewcnt FROM posts LIMIT #{num}, 10;
+    </select>
+
+    <select id="totalCount" resultType="int">
+        SELECT COUNT(*) FROM posts;
+    </select>
+
+    <insert id="boardInsert" parameterType="org.mybatisjsp.mbist.domain.Board">
+        INSERT INTO
+        posts (title, content, name, pw, viewcnt)
+        VALUES(#{title},#{content},#{name},#{pw}, 0);
+    </insert>
+
+    <update id="boardUpdate" parameterType="org.mybatisjsp.mbist.domain.Board">
+        UPDATE posts
+        SET
+        title = #{title},
+        content = #{content}
+        WHERE id = #{id};
+    </update>
+
+    <select id="detailView" parameterType="int" resultType="org.mybatisjsp.mbist.domain.Board">
+        SELECT * FROM posts WHERE id = #{id};
+    </select>
+
+    <update id="viewCnt" parameterType="int">
+        UPDATE posts set viewcnt = viewcnt + 1 where id = #{id};
+    </update>
+
+    <delete id="deleteContent" parameterType="int">
+        DELETE FROM posts WHERE id = #{id};
+    </delete>
+</mapper>
